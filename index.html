@@ -1,0 +1,717 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield | Smart Study Planner</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #080d1b;
+  color: #edf3ff;
+}
+
+header {
+  padding: 22px 7%;
+  background: #10182a;
+  border-bottom: 1px solid #26334b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #53caff;
+}
+
+header p {
+  color: #9aa9c2;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 15px;
+  font-weight: bold;
+}
+
+nav button, .secondary {
+  background: #1a2940;
+  color: #e8f1ff;
+}
+
+nav button.active, .primary {
+  background: #52c7ff;
+  color: #081321;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+h1 {
+  font-size: clamp(26px, 4vw, 38px);
+  margin-bottom: 12px;
+}
+
+h1 span, h2 span {
+  color: #52c7ff;
+}
+
+.subtitle {
+  color: #9aa9c2;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.hero {
+  padding: 30px;
+  background: linear-gradient(120deg, #122b46, #211c43);
+  border: 1px solid #2b4564;
+  border-radius: 16px;
+  margin-bottom: 25px;
+}
+
+.hero p {
+  color: #b5c5dd;
+  line-height: 1.8;
+  margin: 12px 0 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.card, .panel {
+  background: #10182a;
+  border: 1px solid #25334a;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card small {
+  color: #9aa9c2;
+}
+
+.card h2 {
+  font-size: 28px;
+  margin: 15px 0 8px;
+}
+
+section {
+  margin-top: 25px;
+}
+
+h2.section-title {
+  font-size: 23px;
+  margin-bottom: 15px;
+}
+
+.threat-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.threat {
+  background: #10182a;
+  border: 1px solid #25334a;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.threat h3 {
+  margin: 13px 0;
+}
+
+.threat p, .tip {
+  color: #9aa9c2;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.severity {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.High {
+  color: #ff8c9e;
+  background: #3b2030;
+}
+
+.Medium {
+  color: #ffd17e;
+  background: #3c3020;
+}
+
+.Low {
+  color: #70e5b6;
+  background: #17382f;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #34445f;
+  border-radius: 7px;
+  background: #0b1322;
+  color: white;
+  margin-top: 7px;
+}
+
+.task-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+label {
+  color: #bdcbe0;
+  font-size: 12px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #25334a;
+  padding: 15px 0;
+}
+
+.task input[type="checkbox"] {
+  width: 18px;
+  margin: 0;
+}
+
+.task-info {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.task-info small {
+  display: block;
+  color: #9aa9c2;
+  margin-top: 5px;
+}
+
+.task.done strong {
+  text-decoration: line-through;
+  color: #8493ad;
+}
+
+.delete {
+  background: #3b2030;
+  color: #ff8c9e;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.progress-track {
+  height: 9px;
+  background: #28344b;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #52c7ff, #a78bfa);
+  transition: width .3s;
+}
+
+.notice {
+  background: #292419;
+  border: 1px solid #54452a;
+  color: #fbd38d;
+  padding: 14px;
+  border-radius: 9px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  color: #7888a2;
+  border-top: 1px solid #25334a;
+  margin-top: 35px;
+  font-size: 12px;
+}
+
+@media(max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .threat-list { grid-template-columns: repeat(2, 1fr); }
+  .task-form { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width: 550px) {
+  header { align-items: flex-start; }
+  nav { width: 100%; }
+  nav button { flex: 1; padding: 10px 7px; }
+  .grid, .threat-list, .task-form { grid-template-columns: 1fr; }
+  .controls { flex-direction: column; }
+  .hero { padding: 22px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo">✦ CyberShield</div>
+    <p>CYBERSECURITY & PRODUCTIVITY HUB</p>
+  </div>
+
+  <nav>
+    <button class="active" data-page="home">Overview</button>
+    <button data-page="threats">Threats</button>
+    <button data-page="planner">Study Planner</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- OVERVIEW -->
+<div id="home" class="page active">
+  <div class="hero">
+    <h1>Welcome, <span>Himanshu!</span></h1>
+    <p>
+      Understand cybersecurity threats, learn how to prevent them,
+      and organize your study schedule in one place.
+    </p>
+    <button class="primary" onclick="showPage('threats')">
+      Explore Cyber Threats →
+    </button>
+    <button class="secondary" onclick="showPage('planner')">
+      Open Study Planner
+    </button>
+  </div>
+
+  <h2 class="section-title">Dashboard Overview</h2>
+
+  <div class="grid">
+    <div class="card">
+      <small>Threat Categories</small>
+      <h2>05</h2>
+      <small>Educational examples</small>
+    </div>
+
+    <div class="card">
+      <small>High Severity Examples</small>
+      <h2>03</h2>
+      <small>Illustrative severity labels</small>
+    </div>
+
+    <div class="card">
+      <small>Total Study Tasks</small>
+      <h2 id="totalTasks">0</h2>
+      <small>Tasks in your planner</small>
+    </div>
+
+    <div class="card">
+      <small>Study Progress</small>
+      <h2 id="homeProgress">0%</h2>
+      <small>Tasks completed</small>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Study Progress</h2>
+    <div class="progress-track">
+      <div class="progress-bar" id="homeBar"></div>
+    </div>
+    <p class="tip" id="homeSummary">Add a task to start tracking progress.</p>
+  </div>
+
+  <section>
+    <h2 class="section-title">Essential Security Tips</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>🔗 Verify Links</h3>
+        <p class="tip">Check website addresses before entering personal details.</p>
+      </div>
+      <div class="card">
+        <h3>🔐 Strong Passwords</h3>
+        <p class="tip">Use unique passwords and enable multi-factor authentication.</p>
+      </div>
+      <div class="card">
+        <h3>💾 Back Up Data</h3>
+        <p class="tip">Keep separate backups of important files.</p>
+      </div>
+      <div class="card">
+        <h3>🛡️ Update Software</h3>
+        <p class="tip">Install updates from trusted sources.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- THREAT VISUALIZER -->
+<div id="threats" class="page">
+  <h1>Cyber Threat <span>Visualizer</span></h1>
+  <p class="subtitle">
+    Explore common cyber threats, their example severity, and prevention tips.
+  </p>
+
+  <div class="notice">
+    ⚠ DEMO MODE: These are educational examples, not real-time
+    security alerts or results from an actual network scan.
+  </div>
+
+  <div class="controls">
+    <input id="search" type="search" placeholder="Search cyber threats...">
+    <select id="severityFilter">
+      <option value="all">All severity levels</option>
+      <option value="High">High severity</option>
+      <option value="Medium">Medium severity</option>
+      <option value="Low">Low severity</option>
+    </select>
+  </div>
+
+  <div class="threat-list" id="threatList"></div>
+</div>
+
+<!-- STUDY PLANNER -->
+<div id="planner" class="page">
+  <h1>Smart Study <span>Planner</span></h1>
+  <p class="subtitle">
+    Add subjects, set deadlines, select priorities, and track your progress.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <small>Total Tasks</small>
+      <h2 id="plannerTotal">0</h2>
+    </div>
+    <div class="card">
+      <small>Pending Tasks</small>
+      <h2 id="pendingTasks">0</h2>
+    </div>
+    <div class="card">
+      <small>Completed Tasks</small>
+      <h2 id="completedTasks">0</h2>
+    </div>
+    <div class="card">
+      <small>Completion Rate</small>
+      <h2 id="plannerProgress">0%</h2>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Add a Study Task</h2>
+    <form class="task-form" id="taskForm">
+      <label>Task Title
+        <input id="taskTitle" required maxlength="90"
+               placeholder="e.g. Revise Java">
+      </label>
+
+      <label>Subject
+        <input id="taskSubject" placeholder="e.g. DSA">
+      </label>
+
+      <label>Due Date
+        <input id="taskDate" type="date">
+      </label>
+
+      <label>Priority
+        <select id="taskPriority">
+          <option>High</option>
+          <option selected>Medium</option>
+          <option>Low</option>
+        </select>
+      </label>
+
+      <button class="primary" type="submit">＋ Add Task</button>
+    </form>
+  </div>
+
+  <section class="panel">
+    <h2>My Tasks</h2>
+    <div class="controls">
+      <select id="taskFilter">
+        <option value="all">All Tasks</option>
+        <option value="pending">Pending Tasks</option>
+        <option value="completed">Completed Tasks</option>
+      </select>
+    </div>
+    <div id="taskList"></div>
+    <p class="tip" id="emptyMessage">No tasks here yet. Add your first study task!</p>
+  </section>
+</div>
+
+</main>
+
+<footer>
+  CyberShield | B.Tech IT Project Prototype<br><br>
+  Designed for cybersecurity awareness and smarter study habits.
+</footer>
+
+<script>
+const threats = [
+  {
+    name: "Phishing",
+    icon: "🎣",
+    severity: "High",
+    description: "Fake messages or websites try to trick users into revealing passwords or sensitive information.",
+    tips: "Verify the sender, inspect website addresses, and never share OTPs."
+  },
+  {
+    name: "Malware",
+    icon: "🦠",
+    severity: "High",
+    description: "Malicious software may steal information, damage files, or perform unwanted actions.",
+    tips: "Install trusted applications, update software, and avoid suspicious downloads."
+  },
+  {
+    name: "Ransomware",
+    icon: "🔒",
+    severity: "High",
+    description: "Ransomware can block access to files and demand payment for their recovery.",
+    tips: "Keep separate backups, apply security updates, and be cautious with attachments."
+  },
+  {
+    name: "DDoS Attack",
+    icon: "🌐",
+    severity: "Medium",
+    description: "Traffic from many sources overwhelms a service and may make it unavailable.",
+    tips: "Use reputable hosting protection and monitor service availability."
+  },
+  {
+    name: "Social Engineering",
+    icon: "🎭",
+    severity: "Medium",
+    description: "Attackers manipulate people into revealing information or taking unsafe actions.",
+    tips: "Verify unusual requests through another channel and do not trust urgency alone."
+  }
+];
+
+const $ = id => document.getElementById(id);
+
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(el => {
+    el.classList.toggle("active", el.id === page);
+  });
+
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.page === page);
+  });
+}
+
+document.querySelectorAll("nav button").forEach(btn => {
+  btn.addEventListener("click", () => showPage(btn.dataset.page));
+});
+
+function renderThreats() {
+  const query = $("search").value.toLowerCase().trim();
+  const severity = $("severityFilter").value;
+
+  const filtered = threats.filter(t =>
+    (t.name + " " + t.description).toLowerCase().includes(query) &&
+    (severity === "all" || t.severity === severity)
+  );
+
+  $("threatList").innerHTML = "";
+
+  if (filtered.length === 0) {
+    $("threatList").textContent = "No matching threats found.";
+    return;
+  }
+
+  filtered.forEach(t => {
+    const article = document.createElement("article");
+    article.className = "threat";
+
+    const title = document.createElement("h3");
+    title.textContent = t.icon + " " + t.name;
+
+    const description = document.createElement("p");
+    description.textContent = t.description;
+
+    const badge = document.createElement("span");
+    badge.className = "severity " + t.severity;
+    badge.textContent = t.severity + " Severity";
+
+    const tips = document.createElement("p");
+    tips.className = "tip";
+    tips.style.marginTop = "14px";
+    tips.textContent = "Prevention: " + t.tips;
+
+    article.append(title, description, badge, tips);
+    $("threatList").appendChild(article);
+  });
+}
+
+$("search").addEventListener("input", renderThreats);
+$("severityFilter").addEventListener("change", renderThreats);
+
+// Store study tasks in this browser.
+const STORAGE_KEY = "cybershieldTasks";
+let tasks = [];
+
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  tasks = Array.isArray(saved) ? saved : [];
+} catch {
+  tasks = [];
+}
+
+function saveTasks() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  } catch {
+    alert("Unable to save tasks in this browser.");
+  }
+}
+
+function renderTasks() {
+  const filter = $("taskFilter").value;
+  const visible = tasks.filter(t =>
+    filter === "all" ||
+    (filter === "pending" && !t.completed) ||
+    (filter === "completed" && t.completed)
+  );
+
+  $("taskList").innerHTML = "";
+  $("emptyMessage").style.display = visible.length ? "none" : "block";
+
+  visible.forEach(task => {
+    const row = document.createElement("div");
+    row.className = "task" + (task.completed ? " done" : "");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = task.completed;
+    checkbox.setAttribute("aria-label", "Mark task completed");
+
+    checkbox.addEventListener("change", () => {
+      task.completed = checkbox.checked;
+      saveTasks();
+      renderTasks();
+    });
+
+    const info = document.createElement("div");
+    info.className = "task-info";
+
+    const title = document.createElement("strong");
+    title.textContent = task.title;
+
+    const details = document.createElement("small");
+    details.textContent =
+      (task.subject || "General study") +
+      " · Due: " + (task.date || "Not set") +
+      " · " + task.priority + " priority";
+
+    info.append(title, details);
+
+    const remove = document.createElement("button");
+    remove.className = "delete";
+    remove.textContent = "Delete";
+    remove.addEventListener("click", () => {
+      tasks = tasks.filter(t => t.id !== task.id);
+      saveTasks();
+      renderTasks();
+    });
+
+    row.append(checkbox, info, remove);
+    $("taskList").appendChild(row);
+  });
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.completed).length;
+  const pending = total - completed;
+  const rate = total ? Math.round(completed / total * 100) : 0;
+
+  $("totalTasks").textContent = total;
+  $("plannerTotal").textContent = total;
+  $("pendingTasks").textContent = pending;
+  $("completedTasks").textContent = completed;
+  $("plannerProgress").textContent = rate + "%";
+  $("homeProgress").textContent = rate + "%";
+
+  $("homeBar").style.width = rate + "%";
+  $("homeSummary").textContent = total
+    ? `${completed} completed · ${pending} remaining`
+    : "Add a task to start tracking progress.";
+}
+
+$("taskForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const title = $("taskTitle").value.trim();
+  if (!title) return;
+
+  tasks.unshift({
+    id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+    title,
+    subject: $("taskSubject").value.trim(),
+    date: $("taskDate").value,
+    priority: $("taskPriority").value,
+    completed: false
+  });
+
+  saveTasks();
+  $("taskForm").reset();
+  $("taskPriority").value = "Medium";
+  renderTasks();
+});
+
+$("taskFilter").addEventListener("change", renderTasks);
+
+renderThreats();
+renderTasks();
+</script>
+
+</body>
+</html>
